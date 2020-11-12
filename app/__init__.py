@@ -3,7 +3,7 @@ from .config import Configuration
 from .shipping_form import ShippingForm
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
-from .models import db
+from .models import db, Package
 
 app = Flask(__name__)
 app.config.from_object(Configuration)
@@ -22,6 +22,16 @@ def index():
 def new_package():
     form = ShippingForm()
     if form.validate_on_submit():
+        data = form.data
+        new_package = Package(
+            sender=data["sender"],
+            recipient=data["recipient"],
+            origin=data["origin"],
+            destination=data["destination"],
+            location=data["origin"],
+        )
+        db.session.add(new_package)
+        db.session.commit()
         return redirect(url_for(".index"))  # .index refers to index function above,
         #  this is how url_for routes
     return render_template("shipping_request.html", form=form)
