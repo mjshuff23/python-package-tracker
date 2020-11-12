@@ -8,4 +8,9 @@ app.config.from_object(Configuration)
 
 @app.route("/")
 def index():
-    return "<h1>Package Tracker</h1>"
+    return render_template("base.html")
+
+
+@app.route("/new_package", methods=["GET", "POST"])
+def new_package():
+    return render_template("shipping_request.html")
