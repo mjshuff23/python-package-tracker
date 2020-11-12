@@ -13,10 +13,10 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 
-@app.route('/')
+@app.route("/")
 def root_endpoint():
     packages = Package.query.all()
-    return render_template('package_status.html', packages=packages)
+    return render_template("package_status.html", packages=packages)
 
 
 @app.route("/new_package", methods=["GET", "POST"])
@@ -32,7 +32,9 @@ def new_package():
             location=data["origin"],
         )
         db.session.add(new_package)
-        db.session.commit()
-        return redirect(url_for(".root_endpoint"))  # .index refers to index function above,
+        Package.advance_all_locations()
+        return redirect(
+            url_for(".root_endpoint")
+        )  # .index refers to index function above,
         #  this is how url_for routes
     return render_template("shipping_request.html", form=form)
