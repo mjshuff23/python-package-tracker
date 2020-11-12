@@ -13,9 +13,10 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 
-@app.route("/")
-def index():
-    return render_template("base.html")
+@app.route('/')
+def root_endpoint():
+    packages = Package.query.all()
+    return render_template('package_status.html', packages=packages)
 
 
 @app.route("/new_package", methods=["GET", "POST"])
@@ -32,6 +33,6 @@ def new_package():
         )
         db.session.add(new_package)
         db.session.commit()
-        return redirect(url_for(".index"))  # .index refers to index function above,
+        return redirect(url_for(".root_endpoint"))  # .index refers to index function above,
         #  this is how url_for routes
     return render_template("shipping_request.html", form=form)
