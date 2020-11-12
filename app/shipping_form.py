@@ -9,10 +9,11 @@ dr = [DataRequired()]
 origins = [(origin, origin) for origin in map]
 print(origins)
 
+
 class ShippingForm(FlaskForm):
-    sender = StringField('Sender Name', dr)
-    recipient = StringField('Recipient Name', dr)
-    origin = SelectField('Origin', choices=origins)
-    destination = SelectField('Destination', choices=origins)
-    express = BooleanField('Express Shipping', dr)
-    submit = SubmitField('Send package')
+    sender = StringField("Sender Name", dr)
+    recipient = StringField("Recipient Name", dr)
+    origin = SelectField("Origin", choices=origins)
+    destination = SelectField("Destination", choices=origins)
+    express = BooleanField("Express Shipping")
+    submit = SubmitField("Send package")
